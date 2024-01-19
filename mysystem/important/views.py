@@ -9,6 +9,8 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.views import APIView
 from .models import UserProfile
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
 
 class UserViewset(viewsets.ModelViewSet):
@@ -34,3 +36,8 @@ class UserProfileView(APIView):
         user_profile = UserProfile.objects.get(user=request.user)
         serializer_class = profile_info(user_profile)
         return Response(serializer_class.data, status=status.HTTP_200_OK)
+
+
+def profile_by_reference(request, code):
+    profile = get_object_or_404(UserProfile, code=code)
+    return HttpResponse(f"User Profile: {profile.user.username}")

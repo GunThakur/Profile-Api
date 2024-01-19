@@ -22,12 +22,13 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 from rest_framework.routers import DefaultRouter
-from important.views import UserViewset, UserProfileView
+from important.views import UserViewset, UserProfileView, profile_by_reference
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('accounts/profile/', UserProfileView.as_view()),
+    path('accounts/profile/<str:code>/', profile_by_reference),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
