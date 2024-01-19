@@ -1,5 +1,4 @@
 import uuid
-import random
 
 
 def generate_ref_code():
