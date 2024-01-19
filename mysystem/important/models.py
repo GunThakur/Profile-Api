@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     code = models.CharField(max_length=6, blank=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.code}"
+        return f"{self.user.username}"
 
     def get_recommended_profiles(self):
         pass
