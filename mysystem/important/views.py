@@ -32,10 +32,21 @@ class UserProfileView(APIView):
             pass
         print(request.session.get_expiry_date())
 
+    def get_or_create_user_profile(self, user):
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            # New User Create kar deta hain
+            user_profile = UserProfile.objects.create(user=user)
+        return user_profile
+
     def get(self, request):
-        user_profile = UserProfile.objects.get(user=request.user)
-        serializer_class = profile_info(user_profile)
-        return Response(serializer_class.data, status=status.HTTP_200_OK)
+        # try:
+        user_profile = self.get_or_create_user_profile(user=request.user)
+        serializer = profile_info(user_profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        # except UserProfile.DoesNotExist:
+        #     return Response({'error': 'UserProfile not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 def profile_by_reference(request, code):
